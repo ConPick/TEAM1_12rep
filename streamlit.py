@@ -48,34 +48,15 @@ else:
 msg = st.chat_input("메시지를 입력하세요")
 
 # ================================
-# Task 2: 데이터표시하기
-# ================================
-st.set_page_config(
-    page_title = "Streamlit Tutorial",
-    page_icon = ":shark",
-    layout = "wide",
-    initial_sidebar_state = "auto"
-)
-st.header("Task 2: 데이터 표시하기")
-
-st.subheader("데이터프레임")
-uploaded_file = st.file_uploader("CSV 파일을 선택하세요", type=["csv"])
-if uploaded_file:
-    df = pd.read_csv(uploaded_file)
-    st.dataframe(df)
-else:
-    st.write("CSV 파일을 업로드하면 데이터가 여기에 표시됩니다.")
-
-msg = st.chat_input("메시지를 입력하세요")
-
-# ================================
-# Task 3: 차트그리기
+# Task 3: 차트그리기 
 # ================================
 from numpy.random import default_rng as rng
 df = pd.DataFrame(rng(0).standard_normal((20, 3)), columns=["a", "b", "c"])
 st.area_chart(df, x_label='areaX', y_label='areaY')
 st.line_chart(df, x_label='lineX', y_label='lineY')
 st.bar_chart(df, x_label='barX', y_label='barY')
+
+
 # ================================
 # Task 4: CSV 업로드
 # ================================
