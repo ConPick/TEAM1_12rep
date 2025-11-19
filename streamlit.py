@@ -8,6 +8,55 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+st.header("Task 2: 데이터 표시하기")
+
+st.subheader("CSV 업로드")
+uploaded_file = st.file_uploader("CSV 파일을 선택하세요", type=["csv"])
+
+if uploaded_file:
+    df = pd.read_csv(uploaded_file)
+    st.session_state["uploaded_csv"] = df   # 세션에 저장
+    st.dataframe(df)
+else:
+    st.write("CSV 파일을 업로드하면 데이터가 표시됩니다.")
+
+
+msg = st.chat_input("메시지를 입력하세요")
+
+# ================================
+# Task 3: 차트그리기 
+# ================================
+from numpy.random import default_rng as rng
+
+if "uploaded_csv" in st.session_state:
+    df = st.session_state["uploaded_csv"]
+
+   
+    st.line_chart(df["bill_length_mm"]) 
+    st.write("부리 길이 분포")
+
+    mass_df = df.groupby("species")["body_mass_g"].mean()
+    st.bar_chart(mass_df)
+    st.write("종별 평균 몸무게")
+
+    st.area_chart(df["body_mass_g"])
+    st.write("샘플별 체중")
+    
+else:
+    st.info("먼저 위에서 CSV 파일을 업로드 해주세요.")
+
+
+# ================================
+# Task 4: CSV 업로드
+# ================================
+st.title("Task 4: 파일 업로드 - CSV 파일 분석 (penguins.csv 사용)")
+
+# Task 2에서 업로드한 데이터 확인
+if "uploaded_csv" not in st.session_state:
+    st.warning("⚠ 먼저 Task 2에서 CSV 파일을 업로드하세요.")
+    st.stop()
+
+df = st.session_state["uploaded_csv"]
 
 st.title("종합 대시보드")
 
@@ -117,4 +166,6 @@ with tab5:
             y="value"
         )
     )
-    st.altair_chart(chart, use_container_width=True)
+)
+
+st.altair_chart(chart, use_container_width=True)
